@@ -7,6 +7,9 @@
   <meta name="description" content="แบบประเมิน 7 ทักษะสำคัญยุค AI เพื่อดูระดับความพร้อมและความเสี่ยงตกงานจาก AI" />
 
   <!-- Export libraries: ใช้ CDN ได้บน GitHub Pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -38,7 +41,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
       color: var(--text);
       background:
         radial-gradient(circle at 15% 5%, rgba(49,231,255,.19), transparent 35%),
@@ -601,6 +604,13 @@
       padding: 22px;
     }
 
+    .certificate-stage {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .certificate {
       width: 1120px;
       height: 700px;
@@ -629,18 +639,6 @@
       pointer-events: none;
     }
 
-    .certificate::after {
-      content: "AI READY 2026";
-      position: absolute;
-      right: -40px;
-      bottom: 40px;
-      font-size: 82px;
-      font-weight: 950;
-      color: rgba(255,255,255,.045);
-      transform: rotate(-10deg);
-      letter-spacing: -4px;
-    }
-
     .cert-content {
       position: relative;
       z-index: 2;
@@ -652,14 +650,18 @@
     }
 
     .cert-top {
+      position: relative;
+      min-height: 116px;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      text-align: left;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
 
     .cert-seal {
+      position: absolute;
+      top: 0;
+      right: 0;
       width: 96px;
       height: 96px;
       border-radius: 30px;
@@ -670,6 +672,16 @@
       border: 1px solid rgba(255,255,255,.2);
     }
 
+    .cert-heading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 8px 120px 0;
+    }
+
     .cert-kicker {
       color: var(--cyan);
       font-weight: 900;
@@ -678,10 +690,21 @@
     }
 
     .cert-title {
-      font-size: 54px;
-      margin: 8px 0 0;
-      line-height: 1;
-      letter-spacing: -2px;
+      font-family: "UnifrakturCook", serif;
+      font-size: 52px;
+      margin: 0;
+      line-height: 1.08;
+      letter-spacing: .02em;
+      font-weight: 700;
+      color: #fff8ef;
+      text-shadow: 0 8px 28px rgba(0,0,0,.24);
+    }
+
+    .cert-subtitle {
+      font-size: 20px;
+      color: #dbe6ff;
+      font-weight: 700;
+      letter-spacing: .08em;
     }
 
     .cert-name {
@@ -705,6 +728,21 @@
       color: #dbe6ff;
       font-size: 22px;
       line-height: 1.65;
+    }
+
+    .cert-watermark {
+      position: absolute;
+      left: 50%;
+      bottom: 126px;
+      transform: translateX(-50%) rotate(-11deg);
+      font-size: clamp(64px, 9vw, 124px);
+      font-weight: 900;
+      letter-spacing: .08em;
+      color: rgba(255,255,255,.055);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 1;
     }
 
     .cert-bottom {
@@ -765,11 +803,77 @@
       .hero-stats { grid-template-columns: 1fr; }
       .topbar { align-items: flex-start; flex-direction: column; }
       .pill { white-space: normal; }
-      .cert-title { font-size: 36px; }
+      .cert-title { font-size: 38px; }
+      .cert-subtitle { font-size: 16px; letter-spacing: .05em; }
       .cert-name { font-size: 40px; }
       .cert-desc { font-size: 16px; }
       .cert-bottom { grid-template-columns: 1fr; }
-      .certificate { height: auto; min-height: 720px; }
+      .certificate {
+        min-width: 920px;
+        max-width: none;
+        height: 620px;
+      }
+      .cert-heading { padding: 6px 110px 0; }
+      .cert-watermark { left: 56%; bottom: 132px; }
+    }
+
+    @media (max-width: 640px) {
+      .app {
+        width: min(100% - 16px, 1180px);
+        padding-top: 16px;
+        padding-bottom: 32px;
+      }
+
+      .hero-main,
+      .start-card,
+      .question-card,
+      .score-card,
+      .detail-card,
+      .certificate-wrap,
+      .export-card {
+        padding: 18px;
+      }
+
+      .section-title {
+        font-size: 21px;
+      }
+
+      .hero-desc,
+      .section-sub {
+        font-size: 15px;
+      }
+
+      .npc-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .npc {
+        height: 56px;
+        font-size: 26px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .btn-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .question-card,
+      .score-card {
+        min-height: auto;
+      }
+
+      .certificate-wrap {
+        padding-bottom: 10px;
+      }
+
+      .certificate-stage {
+        margin: 0 -4px;
+        padding: 0 4px 10px;
+      }
     }
 
     @media print {
@@ -921,12 +1025,14 @@
     <!-- CERTIFICATE SCREEN -->
     <section id="certificateScreen" class="screen">
       <div class="panel certificate-wrap">
+        <div class="certificate-stage">
         <div id="certificate" class="certificate">
           <div class="cert-content">
             <div class="cert-top">
-              <div>
+              <div class="cert-heading">
                 <div class="cert-kicker">CERTIFICATE OF AI WORK READINESS</div>
                 <h2 class="cert-title">AI Ready Certificate</h2>
+                <div class="cert-subtitle">AI Ready Certificate</div>
               </div>
               <div id="certAvatar" class="cert-seal">🤖</div>
             </div>
@@ -940,12 +1046,15 @@
               </p>
             </div>
 
+            <div class="cert-watermark">AI READY 2026</div>
+
             <div class="cert-bottom">
               <div class="cert-metric"><b id="certScore">0 / 280</b><span>คะแนนรวม</span></div>
               <div class="cert-metric"><b id="certRisk">-</b><span>ระดับความเสี่ยง</span></div>
               <div class="cert-metric"><b id="certGen">-</b><span>Generation</span></div>
             </div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -1597,11 +1706,22 @@
 
     async function captureCertificate() {
       const node = $("certificate");
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const width = node.scrollWidth;
+      const height = node.scrollHeight;
+      const scale = Math.max(2, window.devicePixelRatio || 1);
       return await html2canvas(node, {
-        scale: 2,
+        scale,
         backgroundColor: null,
         useCORS: true,
-        logging: false
+        logging: false,
+        width,
+        height,
+        windowWidth: width,
+        windowHeight: height
       });
     }
 
@@ -1614,7 +1734,9 @@
         const link = document.createElement("a");
         link.href = data;
         link.download = `AI-Ready-Certificate-${cleanFileName(player.name)}.${type}`;
+        document.body.appendChild(link);
         link.click();
+        link.remove();
         toast(`Export ${type.toUpperCase()} สำเร็จ`);
       } catch (err) {
         console.error(err);
@@ -1645,7 +1767,16 @@
 
       if (navigator.share) {
         try {
-          await navigator.share({ title: "AI Job Risk Quiz 2026", text, url: location.href });
+          const canvas = await captureCertificate();
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+          const file = blob && window.File
+            ? new File([blob], `AI-Ready-Certificate-${cleanFileName(player.name)}.png`, { type: "image/png" })
+            : null;
+          if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ title: "AI Job Risk Quiz 2026", text, files: [file] });
+          } else {
+            await navigator.share({ title: "AI Job Risk Quiz 2026", text, url: location.href });
+          }
           return;
         } catch (e) {
           // ผู้ใช้อาจกดยกเลิก share sheet
