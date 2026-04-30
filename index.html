@@ -1,1 +1,1668 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Job Risk Quiz 2026 | แบบประเมินทักษะยุค AI</title>
+  <meta name="description" content="แบบประเมิน 7 ทักษะสำคัญยุค AI เพื่อดูระดับความพร้อมและความเสี่ยงตกงานจาก AI" />
 
+  <!-- Export libraries: ใช้ CDN ได้บน GitHub Pages -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #070914;
+      --bg2: #0d1024;
+      --card: rgba(18, 22, 44, 0.78);
+      --card2: rgba(25, 31, 58, 0.9);
+      --line: rgba(255,255,255,0.11);
+      --text: #eef3ff;
+      --muted: #9ca8c8;
+      --blue: #59a6ff;
+      --cyan: #31e7ff;
+      --purple: #b077ff;
+      --pink: #ff62c8;
+      --green: #4dff9d;
+      --yellow: #ffe66d;
+      --red: #ff5b7c;
+      --orange: #ffae52;
+      --shadow: 0 25px 80px rgba(0,0,0,0.45);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 5%, rgba(49,231,255,.19), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(176,119,255,.22), transparent 35%),
+        radial-gradient(circle at 50% 95%, rgba(255,98,200,.12), transparent 36%),
+        linear-gradient(135deg, #05060e 0%, #090c1d 45%, #05060d 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 26px 0 60px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple), var(--pink));
+      display: grid;
+      place-items: center;
+      color: #070914;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 0 35px rgba(49,231,255,.22);
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      margin: 0;
+      letter-spacing: .3px;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(14px);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      overflow: hidden;
+    }
+
+    .hero-main {
+      padding: 36px;
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .kicker {
+      color: var(--cyan);
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 7vw, 82px);
+      line-height: .98;
+      margin: 0 0 20px;
+      letter-spacing: -2.8px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, var(--cyan), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-desc {
+      color: #c8d2ef;
+      font-size: 18px;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .start-card {
+      padding: 26px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin: 0 0 6px;
+    }
+
+    .section-sub {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      color: #dce5ff;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px 16px;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(0,0,0,.24);
+      outline: none;
+      font-size: 16px;
+      transition: .18s ease;
+    }
+
+    input:focus {
+      border-color: rgba(49,231,255,.65);
+      box-shadow: 0 0 0 4px rgba(49,231,255,.08);
+    }
+
+    .npc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .npc {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.045);
+      border-radius: 18px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      cursor: pointer;
+      transition: .18s ease;
+      user-select: none;
+    }
+
+    .npc:hover { transform: translateY(-2px); border-color: rgba(49,231,255,.5); }
+    .npc.active {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 4px rgba(49,231,255,.1), 0 0 24px rgba(49,231,255,.14);
+      background: rgba(49,231,255,.1);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      border: 0;
+      color: #07101c;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 15px;
+      transition: .18s ease;
+      box-shadow: 0 12px 26px rgba(49,231,255,.18);
+    }
+
+    button:hover { transform: translateY(-2px); filter: brightness(1.06); }
+    button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    .btn-ghost {
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      box-shadow: none;
+    }
+
+    .btn-pink {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      color: #06140e;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn .28s ease both; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .quiz-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .side-card {
+      padding: 22px;
+      position: sticky;
+      top: 16px;
+    }
+
+    .player-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.045);
+    }
+
+    .avatar-big {
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 32px;
+      background: linear-gradient(135deg, rgba(49,231,255,.16), rgba(176,119,255,.16));
+      border: 1px solid var(--line);
+    }
+
+    .player-card b { display: block; font-size: 17px; }
+    .player-card span { color: var(--muted); font-size: 13px; }
+
+    .progress-box { margin: 18px 0; }
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .progress-bar {
+      height: 12px;
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink));
+      transition: width .24s ease;
+    }
+
+    .skill-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .skill-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: rgba(255,255,255,.035);
+      font-size: 13px;
+    }
+
+    .skill-chip.active {
+      color: var(--text);
+      border-color: rgba(49,231,255,.5);
+      background: rgba(49,231,255,.08);
+    }
+
+    .question-card {
+      padding: clamp(22px, 4vw, 36px);
+      min-height: 620px;
+    }
+
+    .question-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .question-meta strong { color: var(--cyan); }
+
+    .question-title {
+      font-size: clamp(24px, 4vw, 42px);
+      line-height: 1.22;
+      letter-spacing: -1px;
+      margin: 0 0 22px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer {
+      position: relative;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      color: var(--text);
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--line);
+      box-shadow: none;
+      border-radius: 20px;
+      padding: 16px;
+      font-weight: 650;
+      line-height: 1.55;
+    }
+
+    .answer:hover {
+      border-color: rgba(49,231,255,.55);
+      background: rgba(49,231,255,.075);
+    }
+
+    .answer.selected {
+      border-color: var(--cyan);
+      background: linear-gradient(135deg, rgba(49,231,255,.14), rgba(176,119,255,.10));
+      box-shadow: 0 0 0 4px rgba(49,231,255,.08);
+    }
+
+    .answer-no {
+      flex: 0 0 32px;
+      height: 32px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #06101b;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      font-weight: 950;
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .score-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 560px;
+    }
+
+    .score-circle {
+      width: min(310px, 78vw);
+      height: min(310px, 78vw);
+      border-radius: 50%;
+      margin: 24px auto;
+      position: relative;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--cyan) 0deg, var(--purple) 150deg, rgba(255,255,255,.08) 150deg 360deg);
+      box-shadow: 0 0 70px rgba(49,231,255,.15);
+    }
+
+    .score-circle::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: 50%;
+      background: #0b1022;
+      border: 1px solid var(--line);
+    }
+
+    .score-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .score-inner b {
+      display: block;
+      font-size: 72px;
+      line-height: 1;
+      letter-spacing: -3px;
+    }
+
+    .score-inner span { color: var(--muted); }
+
+    .risk-badge {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 950;
+      margin: 8px 0;
+    }
+
+    .risk-desc {
+      color: #cbd5f1;
+      text-align: center;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .detail-card {
+      padding: 28px;
+    }
+
+    .bars {
+      display: grid;
+      gap: 13px;
+      margin-top: 20px;
+    }
+
+    .bar-row {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .bar-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .mini-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .mini-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
+      width: 0%;
+    }
+
+    .insight {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(49,231,255,.22);
+      background: rgba(49,231,255,.07);
+      color: #d8f9ff;
+      line-height: 1.7;
+    }
+
+    .certificate-wrap {
+      padding: 22px;
+    }
+
+    .certificate {
+      width: 1120px;
+      height: 700px;
+      max-width: 100%;
+      aspect-ratio: 16 / 10;
+      margin: 0 auto;
+      padding: 42px;
+      position: relative;
+      overflow: hidden;
+      color: #f7fbff;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(49,231,255,.26), transparent 28%),
+        radial-gradient(circle at 85% 20%, rgba(255,98,200,.22), transparent 32%),
+        linear-gradient(135deg, #080b18, #111936 48%, #090b16);
+      border: 2px solid rgba(255,255,255,.18);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .certificate::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 22px;
+      pointer-events: none;
+    }
+
+    .certificate::after {
+      content: "AI READY 2026";
+      position: absolute;
+      right: -40px;
+      bottom: 40px;
+      font-size: 82px;
+      font-weight: 950;
+      color: rgba(255,255,255,.045);
+      transform: rotate(-10deg);
+      letter-spacing: -4px;
+    }
+
+    .cert-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .cert-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .cert-seal {
+      width: 96px;
+      height: 96px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      font-size: 50px;
+      background: linear-gradient(135deg, rgba(49,231,255,.18), rgba(255,98,200,.16));
+      border: 1px solid rgba(255,255,255,.2);
+    }
+
+    .cert-kicker {
+      color: var(--cyan);
+      font-weight: 900;
+      letter-spacing: .18em;
+      font-size: 13px;
+    }
+
+    .cert-title {
+      font-size: 54px;
+      margin: 8px 0 0;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .cert-name {
+      font-size: 58px;
+      line-height: 1;
+      margin: 22px 0 12px;
+      letter-spacing: -2px;
+      color: #fff;
+    }
+
+    .cert-line {
+      width: 64%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+      margin: 0 auto 18px;
+    }
+
+    .cert-desc {
+      max-width: 780px;
+      margin: 0 auto;
+      color: #dbe6ff;
+      font-size: 22px;
+      line-height: 1.65;
+    }
+
+    .cert-bottom {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      text-align: center;
+    }
+
+    .cert-metric {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+
+    .cert-metric b {
+      display: block;
+      font-size: 30px;
+    }
+
+    .cert-metric span {
+      color: #aebce3;
+      font-size: 14px;
+    }
+
+    .export-card {
+      margin-top: 20px;
+      padding: 22px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      z-index: 99;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(8,12,28,.92);
+      border: 1px solid var(--line);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      transition: .2s ease;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 920px) {
+      .hero,
+      .quiz-layout,
+      .result-grid { grid-template-columns: 1fr; }
+      .side-card { position: static; }
+      .hero-main { min-height: auto; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .pill { white-space: normal; }
+      .cert-title { font-size: 36px; }
+      .cert-name { font-size: 40px; }
+      .cert-desc { font-size: 16px; }
+      .cert-bottom { grid-template-columns: 1fr; }
+      .certificate { height: auto; min-height: 720px; }
+    }
+
+    @media print {
+      body { background: white; }
+      .topbar, .export-card, .btn-row, .screen:not(#certificateScreen), .toast { display: none !important; }
+      .app { width: 100%; padding: 0; }
+      .certificate { box-shadow: none; border-radius: 0; width: 100vw; height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">AI</div>
+        <div>
+          <h1>AI Job Risk Quiz 2026</h1>
+          <p>แบบประเมินความพร้อมแรงงานไทยในยุค AI Disruption</p>
+        </div>
+      </div>
+      <div class="pill">🔒 ไม่เก็บข้อมูล • รันบน GitHub Pages ได้ • Export ได้ในเครื่องคุณ</div>
+    </header>
+
+    <!-- START SCREEN -->
+    <section id="startScreen" class="screen active">
+      <div class="hero">
+        <div class="panel hero-main">
+          <div>
+            <div class="kicker">Labor Day 2026 / AI Disruption</div>
+            <h2 class="hero-title">คุณพร้อมสู้ <span class="gradient-text">AI</span> แค่ไหน?</h2>
+            <p class="hero-desc">
+              แบบทดสอบ 28 ข้อ จาก 7 ทักษะสำคัญ ใช้วัดความพร้อมในการทำงานยุค AI
+              และประเมินระดับ “ความเสี่ยงตกงานจาก AI” แบบไม่ตัดสินถูกผิด แต่ดูจากพฤติกรรมการทำงานจริง
+            </p>
+            <div class="hero-stats">
+              <div class="stat"><b>7</b><span>ทักษะสำคัญ</span></div>
+              <div class="stat"><b>28</b><span>คำถามทั้งหมด</span></div>
+              <div class="stat"><b>280</b><span>คะแนนเต็ม</span></div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button type="button" onclick="focusProfile()">เริ่มสร้างโปรไฟล์</button>
+            <button type="button" class="btn-ghost" onclick="showRules()">ดูเกณฑ์คะแนน</button>
+          </div>
+        </div>
+
+        <div class="panel start-card" id="profileCard">
+          <h3 class="section-title">สร้างตัวละครผู้ทดสอบ</h3>
+          <p class="section-sub">ใส่ชื่อปลอมได้ ข้อมูลทั้งหมดอยู่ใน browser ของคุณ ไม่ส่งไป server</p>
+
+          <div class="field">
+            <label for="playerName">ชื่อผู้เล่น / ชื่อปลอม</label>
+            <input id="playerName" placeholder="เช่น Engineer X, น้องปลาวาฬ, NPC-01" maxlength="40" />
+          </div>
+
+          <div class="field">
+            <label for="birthYear">ปีเกิด ค.ศ. เพื่อประเมิน Generation</label>
+            <input id="birthYear" type="number" min="1940" max="2026" placeholder="เช่น 1998" />
+          </div>
+
+          <div class="field">
+            <label>เลือกไอคอน NPC</label>
+            <div id="npcGrid" class="npc-grid"></div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-green" onclick="startQuiz()">เริ่มทำแบบสอบถาม</button>
+            <button type="button" class="btn-ghost" onclick="fillDemo()">สุ่มตัวอย่าง</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ SCREEN -->
+    <section id="quizScreen" class="screen">
+      <div class="quiz-layout">
+        <aside class="panel side-card">
+          <div class="player-card">
+            <div id="sideAvatar" class="avatar-big">🤖</div>
+            <div>
+              <b id="sideName">Player</b>
+              <span id="sideGen">Gen -</span>
+            </div>
+          </div>
+
+          <div class="progress-box">
+            <div class="progress-top">
+              <span id="progressText">ข้อ 1 / 28</span>
+              <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+          </div>
+
+          <div class="pill" id="currentSkillPill">กำลังวัด: -</div>
+          <div id="skillList" class="skill-list"></div>
+        </aside>
+
+        <section class="panel question-card">
+          <div class="question-meta">
+            <span id="questionSkill">ทักษะ</span>
+            <span>คะแนนต่อข้อ: <strong>5–10</strong></span>
+          </div>
+          <h2 id="questionTitle" class="question-title"></h2>
+          <div id="answers" class="answers"></div>
+          <div class="quiz-actions">
+            <button type="button" class="btn-ghost" onclick="prevQuestion()">ย้อนกลับ</button>
+            <button type="button" id="nextBtn" onclick="nextQuestion()" disabled>ข้อต่อไป</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- RESULT SCREEN -->
+    <section id="resultScreen" class="screen">
+      <div class="result-grid">
+        <div class="panel score-card">
+          <div>
+            <div class="kicker">Assessment Result</div>
+            <h2 class="section-title">ผลประเมินความเสี่ยงตกงานจาก AI</h2>
+            <p class="section-sub">คะแนนสูงหมายถึงมีทักษะปรับตัวสูง และความเสี่ยงจาก AI ต่ำกว่า</p>
+          </div>
+
+          <div id="scoreCircle" class="score-circle">
+            <div class="score-inner">
+              <b id="totalScore">0</b>
+              <span>/ 280 คะแนน</span>
+            </div>
+          </div>
+
+          <div>
+            <div id="riskBadge" class="risk-badge">-</div>
+            <p id="riskDesc" class="risk-desc">-</p>
+          </div>
+        </div>
+
+        <div class="panel detail-card">
+          <h3 class="section-title">คะแนนแยกตาม 7 ทักษะ</h3>
+          <p class="section-sub">ดูว่าทักษะไหนแข็งแรง และทักษะไหนควรอัปเกรดก่อน</p>
+          <div id="skillBars" class="bars"></div>
+          <div id="insightBox" class="insight"></div>
+          <div class="btn-row" style="margin-top:20px;">
+            <button type="button" onclick="showCertificate()">รับเกียรติบัตร</button>
+            <button type="button" class="btn-ghost" onclick="restartQuiz()">ทำใหม่อีกครั้ง</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATE SCREEN -->
+    <section id="certificateScreen" class="screen">
+      <div class="panel certificate-wrap">
+        <div id="certificate" class="certificate">
+          <div class="cert-content">
+            <div class="cert-top">
+              <div>
+                <div class="cert-kicker">CERTIFICATE OF AI WORK READINESS</div>
+                <h2 class="cert-title">AI Ready Certificate</h2>
+              </div>
+              <div id="certAvatar" class="cert-seal">🤖</div>
+            </div>
+
+            <div>
+              <div class="cert-kicker">มอบให้แก่</div>
+              <div id="certName" class="cert-name">Player</div>
+              <div class="cert-line"></div>
+              <p id="certDesc" class="cert-desc">
+                ผ่านการประเมิน 7 ทักษะสำคัญสำหรับการทำงานยุค AI Disruption ประจำปี 2026
+              </p>
+            </div>
+
+            <div class="cert-bottom">
+              <div class="cert-metric"><b id="certScore">0 / 280</b><span>คะแนนรวม</span></div>
+              <div class="cert-metric"><b id="certRisk">-</b><span>ระดับความเสี่ยง</span></div>
+              <div class="cert-metric"><b id="certGen">-</b><span>Generation</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel export-card">
+        <h3 class="section-title">Export / Share</h3>
+        <p class="section-sub">ดาวน์โหลดเกียรติบัตรแนวนอนเป็น PNG, JPG, PDF หรือแชร์ผลลัพธ์</p>
+        <div class="btn-row">
+          <button type="button" class="btn-green" onclick="exportCertificate('png')">Export PNG</button>
+          <button type="button" onclick="exportCertificate('jpg')">Export JPG</button>
+          <button type="button" class="btn-pink" onclick="exportPDF()">Export PDF</button>
+          <button type="button" class="btn-ghost" onclick="shareResult()">แชร์ผลลัพธ์</button>
+          <button type="button" class="btn-ghost" onclick="backToResult()">กลับไปดูคะแนน</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast">Done</div>
+
+  <script>
+    const CURRENT_YEAR = 2026;
+
+    const skills = [
+      "พื้นฐาน AI และเครื่องมือดิจิทัล",
+      "วิเคราะห์ข้อมูลเพื่อการตัดสินใจ",
+      "เรียนรู้เร็วและปรับตัวเร็ว",
+      "ทำงานร่วมกับคนหลายเจน",
+      "คิดวิเคราะห์และแก้ปัญหาซับซ้อน",
+      "ความคิดสร้างสรรค์",
+      "ความเห็นอกเห็นใจ"
+    ];
+
+    const npcs = ["🤖","🧠","🦾","👨‍🏭","👩‍💻","🧑‍🔧","🧑‍🔬","🧑‍🚀","🐋","🦊","🐉","🦉","⚙️","🚀","💎","🔥"];
+
+    const questions = [
+      {
+        skill: skills[0],
+        q: "ถ้าคุณได้รับมอบหมายให้สรุปรายงานยาว 30 หน้า ภายในเวลาจำกัด คุณจะทำอย่างไร?",
+        a: [
+          ["อ่านเองทั้งหมดแล้วสรุปด้วยตนเอง เพราะเชื่อว่า AI อาจสรุปผิด", 5],
+          ["ใช้ AI สรุปทันที แล้วส่งผลลัพธ์โดยไม่ตรวจสอบ", 6],
+          ["ใช้ AI ช่วยสรุป แล้วอ่านตรวจเฉพาะหัวข้อสำคัญก่อนส่ง", 8],
+          ["แบ่งเอกสารเป็นส่วน ๆ ให้ AI สรุป แล้วนำมารวมเอง", 9],
+          ["ใช้ AI สรุป เปรียบเทียบกับเอกสารจริง ตรวจความถูกต้อง และปรับภาษาให้เหมาะกับผู้รับ", 10],
+          ["ขอเลื่อนงาน เพราะเอกสารยาวเกินไปและไม่ถนัดใช้เครื่องมือดิจิทัล", 5]
+        ]
+      },
+      {
+        skill: skills[0],
+        q: "เมื่อคุณต้องเขียนอีเมลสำคัญถึงลูกค้า แต่ยังคิดคำพูดไม่ออก คุณจะทำอย่างไร?",
+        a: [
+          ["เขียนเองทั้งหมด แม้ใช้เวลานาน เพราะไม่อยากพึ่ง AI", 6],
+          ["ให้ AI เขียนให้ทั้งหมด แล้วส่งทันที", 5],
+          ["ให้ AI ช่วยร่าง แล้วปรับให้เป็นภาษาของตนเอง", 8],
+          ["ให้ AI สร้างหลายเวอร์ชัน เช่น สุภาพ กระชับ เป็นทางการ แล้วเลือกปรับใช้", 9],
+          ["ระบุบริบท เป้าหมาย น้ำเสียง และข้อมูลลูกค้าให้ AI ช่วยร่าง จากนั้นตรวจความเหมาะสมก่อนส่ง", 10],
+          ["คัดลอกอีเมลเก่ามาแก้เล็กน้อย โดยไม่สนใจว่าบริบทต่างกันหรือไม่", 5]
+        ]
+      },
+      {
+        skill: skills[0],
+        q: "ถ้ามีเครื่องมือดิจิทัลใหม่ในทีม แต่คุณไม่เคยใช้มาก่อน คุณจะเริ่มอย่างไร?",
+        a: [
+          ["รอให้คนอื่นใช้ก่อน แล้วค่อยทำตาม", 5],
+          ["เปิดดูเมนูคร่าว ๆ แล้วลองใช้เฉพาะปุ่มที่เข้าใจ", 6],
+          ["ดูคู่มือหรือวิดีโอสั้น ๆ แล้วทดลองกับงานเล็ก ๆ ก่อน", 8],
+          ["ทดลองใช้กับงานจริงบางส่วน และจดข้อดีข้อจำกัดไว้", 9],
+          ["ทดลองใช้ เปรียบเทียบกับวิธีเดิม แล้วเสนอแนวทางนำไปใช้กับทีม", 10],
+          ["ปฏิเสธการใช้ เพราะคิดว่าวิธีเดิมปลอดภัยกว่าเสมอ", 5]
+        ]
+      },
+      {
+        skill: skills[0],
+        q: "คุณคิดว่า AI เหมาะกับงานประเภทใดมากที่สุด?",
+        a: [
+          ["งานทุกอย่าง เพราะ AI ทำแทนคนได้หมด", 5],
+          ["งานที่ไม่สำคัญเท่านั้น", 6],
+          ["งานช่วยร่างเอกสาร ค้นไอเดีย สรุปข้อมูล และลดงานซ้ำ ๆ", 8],
+          ["งานที่มีข้อมูลเยอะและต้องการความเร็ว แต่ยังต้องมีคนตรวจสอบ", 9],
+          ["งานที่ใช้ AI เป็นผู้ช่วยคิด วิเคราะห์ ร่าง ตรวจสอบ และเพิ่มประสิทธิภาพ โดยมนุษย์ยังตัดสินใจขั้นสุดท้าย", 10],
+          ["ไม่ควรใช้ AI ในงาน เพราะเสี่ยงผิดพลาด", 5]
+        ]
+      },
+      {
+        skill: skills[1],
+        q: "ถ้ายอดขายลดลง 20% ในเดือนนี้ คุณจะเริ่มวิเคราะห์อย่างไร?",
+        a: [
+          ["สรุปทันทีว่าสินค้าไม่ดี", 5],
+          ["ถามความเห็นคนในทีมก่อน โดยยังไม่ดูข้อมูล", 6],
+          ["ดูยอดขายเทียบกับเดือนก่อนและปีที่แล้ว", 8],
+          ["แยกดูตามสินค้า ช่องทางขาย ลูกค้า และพื้นที่ เพื่อหาจุดที่ลดลงจริง", 9],
+          ["วิเคราะห์แนวโน้ม เปรียบเทียบปัจจัยภายใน/ภายนอก แล้วเสนอทางเลือกพร้อมเหตุผล", 10],
+          ["ลดราคาทันทีเพื่อกระตุ้นยอดขาย", 5]
+        ]
+      },
+      {
+        skill: skills[1],
+        q: "ถ้าข้อมูลในรายงานมีตัวเลขผิดปกติสูงกว่าปกติมาก คุณจะทำอย่างไร?",
+        a: [
+          ["ใช้ตัวเลขนั้นทันที เพราะมาจากระบบ", 5],
+          ["ลบตัวเลขนั้นออก เพราะดูผิดปกติ", 6],
+          ["ตรวจสอบแหล่งที่มาและสูตรคำนวณก่อน", 8],
+          ["เทียบกับข้อมูลย้อนหลังและสอบถามผู้เกี่ยวข้อง", 9],
+          ["ตรวจสอบสาเหตุ แยกว่าคือความผิดพลาดหรือเหตุการณ์จริง แล้วบันทึกสมมติฐานก่อนตัดสินใจ", 10],
+          ["ไม่สนใจ เพราะเป็นแค่ตัวเลขเดียว", 5]
+        ]
+      },
+      {
+        skill: skills[1],
+        q: "เมื่อต้องเลือกลงทุนในโครงการ A หรือ B คุณจะใช้ข้อมูลอย่างไร?",
+        a: [
+          ["เลือกโครงการที่ตนเองชอบมากกว่า", 5],
+          ["เลือกตามความเห็นของหัวหน้าเท่านั้น", 6],
+          ["ดูต้นทุนและผลตอบแทนเบื้องต้น", 8],
+          ["เปรียบเทียบต้นทุน ผลตอบแทน ความเสี่ยง และระยะเวลาคืนทุน", 9],
+          ["วิเคราะห์ข้อมูลเชิงตัวเลขร่วมกับความเสี่ยง ทรัพยากร ผลกระทบระยะยาว และทำข้อเสนอประกอบการตัดสินใจ", 10],
+          ["เลือกโครงการที่เริ่มได้เร็วที่สุดโดยไม่วิเคราะห์เพิ่ม", 5]
+        ]
+      },
+      {
+        skill: skills[1],
+        q: "ถ้าคุณได้รับกราฟข้อมูลที่ดูซับซ้อน คุณจะทำอย่างไร?",
+        a: [
+          ["ข้ามกราฟนั้นไป เพราะดูยาก", 5],
+          ["อ่านเฉพาะตัวเลขที่เด่นที่สุด", 6],
+          ["ดูแนวโน้มโดยรวมว่าเพิ่มขึ้นหรือลดลง", 8],
+          ["วิเคราะห์แกน เวลา กลุ่มข้อมูล และจุดผิดปกติ", 9],
+          ["แปลความหมายของกราฟ เชื่อมกับบริบทธุรกิจ และสรุปเป็นข้อเสนอที่นำไปใช้ได้", 10],
+          ["ถามคนอื่นให้สรุปให้ทั้งหมด", 5]
+        ]
+      },
+      {
+        skill: skills[2],
+        q: "เมื่อต้องเปลี่ยนจากระบบงานเดิมไปใช้ระบบใหม่ คุณจะตอบสนองอย่างไร?",
+        a: [
+          ["ต่อต้าน เพราะระบบเดิมก็ใช้ได้อยู่แล้ว", 5],
+          ["ใช้ระบบใหม่เฉพาะเมื่อถูกบังคับ", 6],
+          ["เรียนรู้ฟังก์ชันพื้นฐานเพื่อให้ทำงานต่อได้", 8],
+          ["ทดลองใช้หลายฟังก์ชันและหาวิธีทำงานให้เร็วขึ้น", 9],
+          ["เข้าใจเหตุผลของการเปลี่ยนแปลง เรียนรู้เร็ว และช่วยแนะนำผู้อื่นให้ปรับตัวได้", 10],
+          ["รอให้คนอื่นสอนแบบละเอียดทุกขั้นตอนก่อนจึงจะเริ่ม", 5]
+        ]
+      },
+      {
+        skill: skills[2],
+        q: "ถ้าคุณต้องเรียนเครื่องมือใหม่ภายใน 3 วันเพื่อใช้งานจริง คุณจะวางแผนอย่างไร?",
+        a: [
+          ["รออบรมอย่างเดียว", 5],
+          ["อ่านคู่มือทั้งหมดก่อน แต่ยังไม่ทดลองใช้", 6],
+          ["เรียนเฉพาะฟังก์ชันที่จำเป็นกับงานก่อน", 8],
+          ["แบ่งเวลาเรียน ทดลอง และจดปัญหาที่พบ", 9],
+          ["ตั้งเป้าหมายการใช้งานจริง เรียนจากตัวอย่าง ทดลอง สรุปบทเรียน และทำคู่มือสั้น ๆ ให้ตนเองหรือทีม", 10],
+          ["บอกว่ายังไม่พร้อม เพราะเวลาเรียนน้อยเกินไป", 5]
+        ]
+      },
+      {
+        skill: skills[2],
+        q: "เมื่อเทคโนโลยีทำให้วิธีทำงานเดิมของคุณเปลี่ยนไป คุณคิดอย่างไร?",
+        a: [
+          ["รู้สึกกังวลและไม่อยากเปลี่ยน", 5],
+          ["ยอมเปลี่ยนแต่ทำเท่าที่จำเป็น", 6],
+          ["มองว่าเป็นโอกาสลดงานซ้ำ ๆ", 8],
+          ["พยายามหาว่าเทคโนโลยีช่วยให้งานดีขึ้นตรงไหน", 9],
+          ["มองเป็นโอกาสพัฒนาตนเอง ปรับกระบวนการ และสร้างคุณค่าใหม่ให้กับงาน", 10],
+          ["คิดว่าเทคโนโลยีทำให้งานยุ่งยากกว่าเดิมเสมอ", 5]
+        ]
+      },
+      {
+        skill: skills[2],
+        q: "ถ้าคุณลองใช้วิธีใหม่แล้วล้มเหลว คุณจะทำอย่างไร?",
+        a: [
+          ["เลิกใช้ทันทีและกลับไปใช้วิธีเดิม", 5],
+          ["โทษเครื่องมือหรือระบบว่าไม่ดี", 6],
+          ["หาสาเหตุเบื้องต้นว่าเกิดจากอะไร", 8],
+          ["ปรับวิธี ทดลองซ้ำ และขอคำแนะนำจากผู้รู้", 9],
+          ["วิเคราะห์บทเรียน แก้สมมติฐาน ทดลองใหม่ และแชร์สิ่งที่เรียนรู้กับทีม", 10],
+          ["รอให้คนอื่นแก้ก่อน", 5]
+        ]
+      },
+      {
+        skill: skills[3],
+        q: "ถ้าคุณต้องทำงานกับเพื่อนร่วมงานต่างวัยที่มีวิธีคิดต่างกันมาก คุณจะทำอย่างไร?",
+        a: [
+          ["ทำเฉพาะส่วนของตนเอง ไม่ยุ่งกับวิธีคิดของเขา", 5],
+          ["พยายามให้เขาปรับตามวิธีของคุณ", 6],
+          ["รับฟังเหตุผลของเขา แม้ยังไม่เห็นด้วยทั้งหมด", 8],
+          ["หาจุดร่วมระหว่างประสบการณ์ของเขากับวิธีทำงานของคุณ", 9],
+          ["ปรับวิธีสื่อสารให้เหมาะกับแต่ละคน สร้างความเข้าใจร่วม และใช้ความต่างให้เป็นประโยชน์", 10],
+          ["หลีกเลี่ยงการทำงานร่วมกันถ้าเลือกได้", 5]
+        ]
+      },
+      {
+        skill: skills[3],
+        q: "หากคนรุ่นใหม่ในทีมเสนอวิธีทำงานที่คุณไม่คุ้นเคย คุณจะตอบอย่างไร?",
+        a: [
+          ["ปฏิเสธทันที เพราะไม่ใช่วิธีที่เคยใช้", 5],
+          ["ฟังแต่ไม่คิดจะนำไปใช้จริง", 6],
+          ["ขอให้เขาอธิบายข้อดีข้อเสียเพิ่มเติม", 8],
+          ["ทดลองใช้ในขอบเขตเล็ก ๆ เพื่อดูผลลัพธ์", 9],
+          ["เปิดพื้นที่ให้เสนอ ทดลอง วัดผล และผสมกับประสบการณ์เดิมเพื่อหาแนวทางที่ดีที่สุด", 10],
+          ["บอกให้ทำตามระบบเดิมเท่านั้น", 5]
+        ]
+      },
+      {
+        skill: skills[3],
+        q: "ถ้าเกิดความขัดแย้งระหว่างคนต่างวัยในทีม คุณจะช่วยอย่างไร?",
+        a: [
+          ["ปล่อยให้เขาแก้กันเอง", 5],
+          ["เข้าข้างฝ่ายที่สนิทกว่า", 5],
+          ["รับฟังทั้งสองฝ่ายและสรุปประเด็นที่ขัดแย้ง", 8],
+          ["ช่วยให้แต่ละฝ่ายเข้าใจเหตุผลและข้อจำกัดของกันและกัน", 9],
+          ["ทำหน้าที่ประสาน สร้างข้อตกลงร่วม และเปลี่ยนความขัดแย้งเป็นแนวทางทำงานที่ทุกฝ่ายยอมรับได้", 10],
+          ["แจ้งหัวหน้าให้จัดการทั้งหมดทันที", 6]
+        ]
+      },
+      {
+        skill: skills[3],
+        q: "ในการสื่อสารกับคนหลายเจน คุณให้ความสำคัญกับอะไรที่สุด?",
+        a: [
+          ["พูดให้เร็วและตรงที่สุด ไม่ต้องสนใจสไตล์ของผู้ฟัง", 5],
+          ["ใช้วิธีเดียวกับทุกคนเพื่อความเท่าเทียม", 6],
+          ["เลือกช่องทางสื่อสารให้เหมาะ เช่น คุยตรง แชต หรือเอกสาร", 8],
+          ["ปรับภาษา น้ำเสียง และรายละเอียดให้เหมาะกับผู้รับสาร", 9],
+          ["เข้าใจพื้นฐาน ประสบการณ์ ความคาดหวังของแต่ละคน และสื่อสารเพื่อให้เกิดความร่วมมือจริง", 10],
+          ["สื่อสารเฉพาะกับคนที่เข้าใจง่ายเท่านั้น", 5]
+        ]
+      },
+      {
+        skill: skills[4],
+        q: "เมื่อเจอปัญหาที่ไม่รู้สาเหตุชัดเจน คุณจะเริ่มจากอะไร?",
+        a: [
+          ["เดาสาเหตุจากประสบการณ์เดิม", 5],
+          ["เลือกวิธีแก้ที่เร็วที่สุดก่อน", 6],
+          ["รวบรวมข้อมูลและแยกอาการของปัญหา", 8],
+          ["วิเคราะห์สาเหตุที่เป็นไปได้หลายทางก่อนลงมือแก้", 9],
+          ["ตั้งคำถาม แยกปัญหาเป็นส่วน ๆ ตรวจหลักฐาน หาสาเหตุราก และออกแบบแนวทางแก้หลายทางเลือก", 10],
+          ["ส่งต่อให้คนอื่น เพราะไม่ใช่งานของตนเองโดยตรง", 5]
+        ]
+      },
+      {
+        skill: skills[4],
+        q: "ถ้าลูกค้าร้องเรียนเรื่องเดิมซ้ำ ๆ แต่ทีมแก้แล้วไม่หาย คุณจะทำอย่างไร?",
+        a: [
+          ["บอกว่าลูกค้าเรื่องมาก", 5],
+          ["แก้เฉพาะเคสนั้น ๆ ไปก่อน", 6],
+          ["รวบรวมข้อร้องเรียนเพื่อดูรูปแบบปัญหา", 8],
+          ["ตรวจสอบกระบวนการทำงานตั้งแต่ต้นทางถึงปลายทาง", 9],
+          ["วิเคราะห์ root cause เชื่อมโยงข้อมูลลูกค้า กระบวนการ คน ระบบ และออกมาตรการป้องกันไม่ให้เกิดซ้ำ", 10],
+          ["ส่งเรื่องให้ฝ่ายบริการลูกค้าอย่างเดียว", 5]
+        ]
+      },
+      {
+        skill: skills[4],
+        q: "ถ้าหัวหน้าให้ตัดสินใจในเรื่องที่มีข้อมูลไม่ครบ คุณจะทำอย่างไร?",
+        a: [
+          ["ไม่ตัดสินใจจนกว่าจะมีข้อมูลครบ 100%", 6],
+          ["ตัดสินใจตามความรู้สึก", 5],
+          ["ใช้ข้อมูลที่มีอยู่และระบุสิ่งที่ยังไม่รู้", 8],
+          ["ประเมินความเสี่ยงและตั้งสมมติฐานก่อนเสนอทางเลือก", 9],
+          ["ตัดสินใจบนข้อมูลที่มี ระบุความไม่แน่นอน แผนสำรอง และเงื่อนไขที่ต้องติดตามหลังตัดสินใจ", 10],
+          ["ให้หัวหน้าตัดสินใจเองทั้งหมด", 5]
+        ]
+      },
+      {
+        skill: skills[4],
+        q: "เมื่อมีหลายฝ่ายเสนอวิธีแก้ปัญหาคนละแบบ คุณจะเลือกอย่างไร?",
+        a: [
+          ["เลือกวิธีของฝ่ายที่มีอำนาจมากที่สุด", 5],
+          ["เลือกวิธีที่ทำง่ายที่สุด", 6],
+          ["เปรียบเทียบข้อดีข้อเสียของแต่ละวิธี", 8],
+          ["ใช้เกณฑ์ เช่น ต้นทุน เวลา ความเสี่ยง และผลกระทบ เพื่อเลือก", 9],
+          ["สร้างเกณฑ์ตัดสินใจร่วม วิเคราะห์ผลกระทบระยะสั้น/ยาว และเลือกวิธีที่สมดุลที่สุดต่อเป้าหมายรวม", 10],
+          ["รวมทุกวิธีเข้าด้วยกันโดยไม่จัดลำดับความสำคัญ", 5]
+        ]
+      },
+      {
+        skill: skills[5],
+        q: "ถ้าต้องคิดไอเดียปรับปรุงงานเดิมให้ดีขึ้น คุณจะเริ่มอย่างไร?",
+        a: [
+          ["ใช้วิธีเดิม เพราะเคยทำแล้วปลอดภัย", 5],
+          ["ถามคนอื่นว่าควรทำอย่างไร", 6],
+          ["ดูปัญหาของงานเดิมแล้วคิดวิธีลดขั้นตอน", 8],
+          ["หาแรงบันดาลใจจากงานอื่นหรืออุตสาหกรรมอื่นมาปรับใช้", 9],
+          ["มองภาพรวม เชื่อมโยงปัญหา เทคโนโลยี ลูกค้า และข้อจำกัด เพื่อสร้างแนวทางใหม่ที่ทดลองได้จริง", 10],
+          ["รอให้มีนโยบายจากองค์กรก่อน", 5]
+        ]
+      },
+      {
+        skill: skills[5],
+        q: "ถ้ามีคนบอกว่า “ไอเดียนี้ทำไม่ได้หรอก” คุณจะตอบสนองอย่างไร?",
+        a: [
+          ["เลิกคิดต่อทันที", 5],
+          ["เถียงกลับทันทีว่าเขาไม่เปิดใจ", 6],
+          ["ถามเหตุผลว่าทำไมถึงคิดว่าทำไม่ได้", 8],
+          ["แยกข้อจำกัด แล้วปรับไอเดียให้เป็นไปได้มากขึ้น", 9],
+          ["ใช้คำวิจารณ์เป็นข้อมูล ทดสอบสมมติฐาน ทำต้นแบบเล็ก ๆ และพิสูจน์ด้วยผลลัพธ์", 10],
+          ["เก็บไอเดียไว้คนเดียว ไม่เสนออีก", 5]
+        ]
+      },
+      {
+        skill: skills[5],
+        q: "คุณจะใช้ AI ช่วยสร้างสรรค์งานอย่างไรให้มีคุณภาพ?",
+        a: [
+          ["ให้ AI คิดทั้งหมดแล้วใช้ตามนั้น", 5],
+          ["ใช้ AI เฉพาะตอนคิดไม่ออก", 6],
+          ["ใช้ AI ช่วยแตกไอเดียหลายทางเลือก", 8],
+          ["ใช้ AI ช่วยเปรียบเทียบไอเดียและหาจุดอ่อน", 9],
+          ["ใช้ AI เป็นคู่คิด ตั้งโจทย์หลายมุม ทดลองหลายแนวทาง แล้วมนุษย์คัดเลือก ปรับ และเชื่อมกับบริบทจริง", 10],
+          ["ไม่ใช้ AI เพราะกลัวไอเดียไม่เป็นของตัวเอง", 5]
+        ]
+      },
+      {
+        skill: skills[5],
+        q: "ถ้าต้องออกแบบบริการใหม่ให้ลูกค้า คุณจะให้ความสำคัญกับอะไร?",
+        a: [
+          ["ทำตามสิ่งที่คู่แข่งทำอยู่แล้ว", 5],
+          ["ทำสิ่งที่ทีมคิดว่าสวยหรือทันสมัย", 6],
+          ["ฟังปัญหาลูกค้าแล้วออกแบบให้ตอบโจทย์หลัก", 8],
+          ["วิเคราะห์ประสบการณ์ลูกค้าทั้งก่อน ระหว่าง และหลังใช้บริการ", 9],
+          ["เข้าใจลูกค้าเชิงลึก เชื่อมข้อมูล พฤติกรรม เทคโนโลยี และโมเดลธุรกิจ เพื่อสร้างบริการที่แตกต่างและใช้ได้จริง", 10],
+          ["เพิ่มฟีเจอร์ให้เยอะที่สุดไว้ก่อน", 5]
+        ]
+      },
+      {
+        skill: skills[6],
+        q: "ถ้าเพื่อนร่วมงานทำงานผิดพลาดซ้ำ ๆ คุณจะทำอย่างไร?",
+        a: [
+          ["ตำหนิทันทีเพื่อให้จำ", 5],
+          ["รายงานหัวหน้าโดยไม่คุยกับเขาก่อน", 6],
+          ["คุยเพื่อเข้าใจว่าสาเหตุเกิดจากอะไร", 8],
+          ["ช่วยหาวิธีป้องกันความผิดพลาดและติดตามผล", 9],
+          ["เข้าใจทั้งปัญหางานและสภาพของเขา ให้ feedback อย่างสร้างสรรค์ และช่วยวางระบบสนับสนุนให้ทำงานดีขึ้น", 10],
+          ["ปล่อยไป เพราะไม่ใช่หน้าที่ของคุณ", 5]
+        ]
+      },
+      {
+        skill: skills[6],
+        q: "ถ้าทีมต้องเปลี่ยนระบบงานใหม่และหลายคนรู้สึกกังวล คุณจะทำอย่างไร?",
+        a: [
+          ["บอกให้ทุกคนยอมรับ เพราะองค์กรสั่งมาแล้ว", 5],
+          ["ไม่พูดถึงความกังวล เพราะกลัวเสียเวลา", 6],
+          ["รับฟังว่าทีมกังวลเรื่องอะไร", 8],
+          ["อธิบายเหตุผลของการเปลี่ยนแปลงและช่วยให้เรียนรู้ทีละขั้น", 9],
+          ["สื่อสารอย่างเข้าใจความรู้สึก สร้างความมั่นใจ จัดการแรงต้าน และช่วยให้ทีมเห็นประโยชน์ของการเปลี่ยนแปลง", 10],
+          ["ให้คนที่ปรับตัวไม่ได้รับผิดชอบตัวเอง", 5]
+        ]
+      },
+      {
+        skill: skills[6],
+        q: "เมื่อลูกค้าโกรธและใช้ถ้อยคำรุนแรง คุณจะรับมืออย่างไร?",
+        a: [
+          ["ตอบกลับด้วยน้ำเสียงแข็งเพื่อปกป้องตัวเอง", 5],
+          ["รีบจบการสนทนาให้เร็วที่สุด", 6],
+          ["รับฟังและขอโทษในส่วนที่ทำให้ลูกค้าไม่พอใจ", 8],
+          ["พยายามเข้าใจความต้องการจริงของลูกค้าและเสนอทางแก้", 9],
+          ["ควบคุมอารมณ์ รับฟังเชิงลึก แยกความรู้สึกออกจากปัญหา และหาทางออกที่รักษาความสัมพันธ์กับลูกค้า", 10],
+          ["ส่งต่อให้หัวหน้าทันทีโดยไม่พยายามรับฟัง", 5]
+        ]
+      },
+      {
+        skill: skills[6],
+        q: "ภาวะผู้นำแบบเห็นอกเห็นใจควรเป็นอย่างไร?",
+        a: [
+          ["ใจดีเสมอ ไม่ต้องตั้งมาตรฐานงานมากนัก", 5],
+          ["เน้นผลงานอย่างเดียว ไม่ต้องสนใจความรู้สึก", 5],
+          ["รับฟังทีมและให้กำลังใจเมื่อมีปัญหา", 8],
+          ["เข้าใจคน แต่ยังคงตั้งเป้าหมายและความรับผิดชอบชัดเจน", 9],
+          ["สร้างสมดุลระหว่างเป้าหมาย ผลงาน ความรู้สึกของทีม และการพัฒนาคนในระยะยาว", 10],
+          ["ช่วยทุกอย่างแทนทีมเพื่อไม่ให้เขากดดัน", 6]
+        ]
+      }
+    ];
+
+    let player = {
+      name: "",
+      year: null,
+      gen: "",
+      age: null,
+      icon: npcs[0]
+    };
+
+    let current = 0;
+    let selectedAnswers = Array(questions.length).fill(null);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderNPCs();
+      renderSkillList();
+      renderQuestion();
+    });
+
+    function $(id) { return document.getElementById(id); }
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      $(id).classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function toast(text) {
+      const el = $("toast");
+      el.textContent = text;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 2300);
+    }
+
+    function renderNPCs() {
+      const grid = $("npcGrid");
+      grid.innerHTML = "";
+      npcs.forEach((icon, index) => {
+        const div = document.createElement("div");
+        div.className = "npc" + (index === 0 ? " active" : "");
+        div.textContent = icon;
+        div.onclick = () => {
+          player.icon = icon;
+          document.querySelectorAll(".npc").forEach(n => n.classList.remove("active"));
+          div.classList.add("active");
+        };
+        grid.appendChild(div);
+      });
+    }
+
+    function renderSkillList() {
+      const list = $("skillList");
+      list.innerHTML = skills.map((s, i) => `
+        <div class="skill-chip" data-skill-index="${i}">
+          <span>${i + 1}. ${s}</span><span>0/40</span>
+        </div>
+      `).join("");
+    }
+
+    function focusProfile() {
+      $("profileCard").scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => $("playerName").focus(), 400);
+    }
+
+    function showRules() {
+      toast("เกณฑ์: คะแนนสูง = ความเสี่ยงต่ำ / คะแนนต่ำ = ควรเร่งพัฒนา");
+      focusProfile();
+    }
+
+    function fillDemo() {
+      $("playerName").value = "NPC Engineer";
+      $("birthYear").value = "1998";
+      player.icon = "🦾";
+      document.querySelectorAll(".npc").forEach(n => n.classList.remove("active"));
+      const index = npcs.indexOf("🦾");
+      document.querySelectorAll(".npc")[index].classList.add("active");
+      toast("ใส่ข้อมูลตัวอย่างแล้ว");
+    }
+
+    function getGeneration(year) {
+      if (year >= 2013) return "Gen Alpha";
+      if (year >= 1997) return "Gen Z";
+      if (year >= 1981) return "Gen Y / Millennial";
+      if (year >= 1965) return "Gen X";
+      if (year >= 1946) return "Baby Boomer";
+      return "Silent Generation";
+    }
+
+    function startQuiz() {
+      const name = $("playerName").value.trim();
+      const year = Number($("birthYear").value);
+
+      if (!name) return toast("กรุณาใส่ชื่อผู้เล่นก่อน");
+      if (!year || year < 1940 || year > CURRENT_YEAR) return toast("กรุณาใส่ปีเกิด ค.ศ. ให้ถูกต้อง");
+
+      player.name = name;
+      player.year = year;
+      player.age = CURRENT_YEAR - year;
+      player.gen = getGeneration(year);
+
+      $("sideAvatar").textContent = player.icon;
+      $("sideName").textContent = player.name;
+      $("sideGen").textContent = `${player.gen} • อายุประมาณ ${player.age} ปี`;
+
+      current = 0;
+      selectedAnswers = Array(questions.length).fill(null);
+      renderQuestion();
+      showScreen("quizScreen");
+    }
+
+    function renderQuestion() {
+      const item = questions[current];
+      const skillIndex = skills.indexOf(item.skill);
+      const percent = Math.round(((current) / questions.length) * 100);
+
+      $("progressText").textContent = `ข้อ ${current + 1} / ${questions.length}`;
+      $("progressPercent").textContent = `${percent}%`;
+      $("progressFill").style.width = `${percent}%`;
+      $("currentSkillPill").textContent = `กำลังวัด: ${item.skill}`;
+      $("questionSkill").innerHTML = `หมวด ${skillIndex + 1}: <strong>${item.skill}</strong>`;
+      $("questionTitle").textContent = item.q;
+      $("nextBtn").textContent = current === questions.length - 1 ? "ดูผลลัพธ์" : "ข้อต่อไป";
+      $("nextBtn").disabled = selectedAnswers[current] === null;
+
+      document.querySelectorAll(".skill-chip").forEach((chip, i) => {
+        chip.classList.toggle("active", i === skillIndex);
+        const score = getSkillScore(skills[i]);
+        chip.querySelector("span:last-child").textContent = `${score}/40`;
+      });
+
+      const answers = $("answers");
+      answers.innerHTML = "";
+      item.a.forEach((ans, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "answer" + (selectedAnswers[current] === index ? " selected" : "");
+        btn.innerHTML = `<span class="answer-no">${index + 1}</span><span>${ans[0]}</span>`;
+        btn.onclick = () => selectAnswer(index);
+        answers.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(index) {
+      selectedAnswers[current] = index;
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      if (current > 0) {
+        current--;
+        renderQuestion();
+      } else {
+        showScreen("startScreen");
+      }
+    }
+
+    function nextQuestion() {
+      if (selectedAnswers[current] === null) return toast("เลือกคำตอบก่อนนะครับ");
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        renderResult();
+        showScreen("resultScreen");
+      }
+    }
+
+    function getAnswerScore(qIndex) {
+      const aIndex = selectedAnswers[qIndex];
+      if (aIndex === null) return 0;
+      return questions[qIndex].a[aIndex][1];
+    }
+
+    function getTotalScore() {
+      return questions.reduce((sum, _, i) => sum + getAnswerScore(i), 0);
+    }
+
+    function getSkillScore(skill) {
+      return questions.reduce((sum, q, i) => q.skill === skill ? sum + getAnswerScore(i) : sum, 0);
+    }
+
+    function getRiskLevel(score) {
+      if (score >= 252) return {
+        level: "เสี่ยงต่ำมาก",
+        color: "var(--green)",
+        desc: "คุณมีความพร้อมสูงมาก ใช้ AI เป็นเครื่องมือเสริมงานได้ดี มีทักษะมนุษย์และทักษะวิเคราะห์ที่ช่วยให้ปรับตัวได้เร็ว"
+      };
+      if (score >= 224) return {
+        level: "เสี่ยงต่ำ",
+        color: "var(--cyan)",
+        desc: "คุณมีพื้นฐานแข็งแรง อยู่ในกลุ่มที่ปรับตัวกับ AI ได้ดี ควรเสริมทักษะที่คะแนนต่ำสุดเพื่อเพิ่มความได้เปรียบ"
+      };
+      if (score >= 196) return {
+        level: "เสี่ยงปานกลาง",
+        color: "var(--yellow)",
+        desc: "คุณมีหลายทักษะที่ดีแล้ว แต่ยังมีช่องว่างบางจุด ถ้าไม่อัปสกิลต่อเนื่องอาจถูก AI หรือคนที่ใช้ AI เก่งกว่าแซงได้"
+      };
+      if (score >= 168) return {
+        level: "เริ่มน่าเป็นห่วง",
+        color: "var(--orange)",
+        desc: "ควรเร่งพัฒนาทักษะดิจิทัล การวิเคราะห์ และการปรับตัว เพราะงานที่เป็นขั้นตอนซ้ำ ๆ มีโอกาสถูกแทนที่สูงขึ้น"
+      };
+      if (score >= 140) return {
+        level: "เสี่ยงสูง",
+        color: "var(--red)",
+        desc: "คุณควรวางแผนอัปสกิลอย่างจริงจัง โดยเฉพาะการใช้ AI เป็นเครื่องมือ การอ่านข้อมูล และการแก้ปัญหาที่ซับซ้อน"
+      };
+      return {
+        level: "เสี่ยงสูงมาก",
+        color: "var(--red)",
+        desc: "ควรเริ่มพัฒนาทักษะใหม่ทันที เพราะพฤติกรรมการทำงานปัจจุบันอาจพึ่งวิธีเดิมมากเกินไปในยุค AI"
+      };
+    }
+
+    function getSkillLevel(score) {
+      if (score >= 36) return "แข็งแรงมาก";
+      if (score >= 31) return "ดี";
+      if (score >= 26) return "พอใช้";
+      if (score >= 21) return "ต้องพัฒนา";
+      return "ควรเร่งพัฒนา";
+    }
+
+    function renderResult() {
+      const total = getTotalScore();
+      const risk = getRiskLevel(total);
+      const degree = Math.round((total / 280) * 360);
+
+      $("totalScore").textContent = total;
+      $("scoreCircle").style.background = `conic-gradient(${risk.color} 0deg, var(--purple) ${Math.max(40, degree - 35)}deg, rgba(255,255,255,.08) ${degree}deg 360deg)`;
+      $("riskBadge").textContent = risk.level;
+      $("riskBadge").style.color = risk.color;
+      $("riskDesc").textContent = risk.desc;
+
+      const bars = $("skillBars");
+      bars.innerHTML = skills.map(skill => {
+        const s = getSkillScore(skill);
+        const p = Math.round((s / 40) * 100);
+        return `
+          <div class="bar-row">
+            <div class="bar-head"><strong>${skill}</strong><span>${s}/40 • ${getSkillLevel(s)}</span></div>
+            <div class="mini-bar"><div class="mini-fill" style="width:${p}%"></div></div>
+          </div>
+        `;
+      }).join("");
+
+      const weakest = skills.map(skill => ({ skill, score: getSkillScore(skill) })).sort((a,b) => a.score - b.score)[0];
+      const strongest = skills.map(skill => ({ skill, score: getSkillScore(skill) })).sort((a,b) => b.score - a.score)[0];
+      $("insightBox").innerHTML = `
+        <strong>Insight:</strong> จุดแข็งที่สุดของคุณคือ <b>${strongest.skill}</b> (${strongest.score}/40)
+        ส่วนทักษะที่ควรอัปเกรดก่อนคือ <b>${weakest.skill}</b> (${weakest.score}/40)
+        ถ้าอยากลดความเสี่ยงจาก AI ให้เริ่มจากทักษะที่คะแนนต่ำสุดก่อน เพราะจะเห็นผลเร็วที่สุด
+      `;
+    }
+
+    function showCertificate() {
+      const total = getTotalScore();
+      const risk = getRiskLevel(total);
+      $("certAvatar").textContent = player.icon;
+      $("certName").textContent = player.name;
+      $("certScore").textContent = `${total} / 280`;
+      $("certRisk").textContent = risk.level;
+      $("certRisk").style.color = risk.color;
+      $("certGen").textContent = player.gen;
+      $("certDesc").textContent = `ผ่านการประเมิน 7 ทักษะสำคัญสำหรับการทำงานยุค AI Disruption ประจำปี 2026 โดยผลประเมินอยู่ในระดับ “${risk.level}”`;
+      showScreen("certificateScreen");
+    }
+
+    function backToResult() {
+      showScreen("resultScreen");
+    }
+
+    function restartQuiz() {
+      current = 0;
+      selectedAnswers = Array(questions.length).fill(null);
+      renderQuestion();
+      showScreen("startScreen");
+    }
+
+    async function captureCertificate() {
+      const node = $("certificate");
+      return await html2canvas(node, {
+        scale: 2,
+        backgroundColor: null,
+        useCORS: true,
+        logging: false
+      });
+    }
+
+    async function exportCertificate(type) {
+      try {
+        toast("กำลังสร้างไฟล์...");
+        const canvas = await captureCertificate();
+        const mime = type === "jpg" ? "image/jpeg" : "image/png";
+        const data = canvas.toDataURL(mime, type === "jpg" ? 0.95 : 1);
+        const link = document.createElement("a");
+        link.href = data;
+        link.download = `AI-Ready-Certificate-${cleanFileName(player.name)}.${type}`;
+        link.click();
+        toast(`Export ${type.toUpperCase()} สำเร็จ`);
+      } catch (err) {
+        console.error(err);
+        toast("Export ไม่สำเร็จ ลองใหม่อีกครั้ง");
+      }
+    }
+
+    async function exportPDF() {
+      try {
+        toast("กำลังสร้าง PDF...");
+        const canvas = await captureCertificate();
+        const imgData = canvas.toDataURL("image/jpeg", 0.96);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+        pdf.addImage(imgData, "JPEG", 0, 0, 297, 210);
+        pdf.save(`AI-Ready-Certificate-${cleanFileName(player.name)}.pdf`);
+        toast("Export PDF สำเร็จ");
+      } catch (err) {
+        console.error(err);
+        toast("Export PDF ไม่สำเร็จ");
+      }
+    }
+
+    async function shareResult() {
+      const total = getTotalScore();
+      const risk = getRiskLevel(total);
+      const text = `ฉันทำแบบประเมิน AI Job Risk Quiz 2026 ได้ ${total}/280 คะแนน ระดับความเสี่ยง: ${risk.level}`;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: "AI Job Risk Quiz 2026", text, url: location.href });
+          return;
+        } catch (e) {
+          // ผู้ใช้อาจกดยกเลิก share sheet
+        }
+      }
+
+      try {
+        await navigator.clipboard.writeText(`${text}\n${location.href}`);
+        toast("คัดลอกข้อความแชร์แล้ว");
+      } catch (e) {
+        toast(text);
+      }
+    }
+
+    function cleanFileName(name) {
+      return String(name || "Player").replace(/[\\/:*?"<>|]/g, "-").slice(0, 40);
+    }
+  </script>
+</body>
+</html>
